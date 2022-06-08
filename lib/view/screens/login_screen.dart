@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 40,
                     ),
-                    StandartButton(
+                    StandardButton(
                       buttonText: 'Login',
                       height: 60,
                       width: double.infinity,
@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    StandartButton(
+                    StandardButton(
                       buttonText: 'Create Account',
                       height: 60,
                       width: double.infinity,

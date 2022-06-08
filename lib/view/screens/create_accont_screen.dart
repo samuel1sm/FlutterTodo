@@ -17,6 +17,7 @@ class CreateAccountScreen extends StatelessWidget {
   }) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
+  final buttonKey = GlobalKey<StandardButtonState>();
 
   void onUpdated(
       {String? name,
@@ -32,9 +33,9 @@ class CreateAccountScreen extends StatelessWidget {
         this.email != null &&
         this.password != null &&
         this.password == this.confirmPassword) {
-      // changeStateButton(true);
+      buttonKey.currentState?.onChange(true);
     } else {
-      // changeStateButton(false);
+      buttonKey.currentState?.onChange(false);
     }
   }
 
@@ -116,12 +117,20 @@ class CreateAccountScreen extends StatelessWidget {
                       const SizedBox(
                         height: 58,
                       ),
-                      StandartButton(
+                      StandardButton(
+                        key: buttonKey,
                         buttonText: 'Register',
                         height: 60,
                         width: double.infinity,
+                        active: false,
                         onPressed: () {
                           var result = formKey.currentState?.validate();
+                          if (result ?? false) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()));
+                          }
                         },
                       ),
                       const SizedBox(

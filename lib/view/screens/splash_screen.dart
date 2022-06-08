@@ -45,7 +45,7 @@ class SplashScreen extends StatelessWidget {
                 const SizedBox(
                   height: 68,
                 ),
-                StandartButton(
+                StandardButton(
                   buttonText: 'Inciar',
                   height: 60,
                   width: 320,

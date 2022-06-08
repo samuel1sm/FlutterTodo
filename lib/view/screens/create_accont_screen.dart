@@ -1,0 +1,140 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
+import '../components/standard_background.dart';
+import '../components/standard_button.dart';
+import '../components/standard_textField.dart';
+import 'login_screen.dart';
+
+class CreateAccountScreen extends StatelessWidget {
+  String? name;
+  String? email;
+  String? password;
+  String? confirmPassword;
+
+  CreateAccountScreen({
+    Key? key,
+  }) : super(key: key);
+
+  final formKey = GlobalKey<FormState>();
+
+  void onUpdated(
+      {String? name,
+      String? email,
+      String? password,
+      String? confirmPassword}) {
+    this.name = name ?? this.name;
+    this.email = email ?? this.email;
+    this.password = password ?? this.password;
+    this.confirmPassword = confirmPassword ?? this.confirmPassword;
+
+    if (this.name != null &&
+        this.email != null &&
+        this.password != null &&
+        this.password == this.confirmPassword) {
+      // changeStateButton(true);
+    } else {
+      // changeStateButton(false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BackgroundWidget(
+        children: [
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Welcome Onboard!",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        "Let’s help you meet up your task",
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      const SizedBox(
+                        height: 56,
+                      ),
+                      StandardTextField(
+                        hintText: 'Enter your full name',
+                        onUpdated: (String? value) => onUpdated(name: value),
+                        validator: (String? value) {
+                          if ((value?.length ?? 0) < 2) {
+                            return "Nome Incompleta";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StandardTextField(
+                          hintText: 'Enter your email',
+                          onUpdated: (String? value) => onUpdated(email: value),
+                          validator: (String? value) =>
+                              (value?.isNotEmpty ?? false)
+                                  ? null
+                                  : "Email Invalido"),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StandardTextField(
+                          hintText: 'Enter password',
+                          onUpdated: (String? value) =>
+                              onUpdated(password: value),
+                          validator: (String? value) =>
+                              ((value?.length ?? 0) > 2)
+                                  ? null
+                                  : "Senha Invalida"),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StandardTextField(
+                        hintText: 'Confirm password',
+                        onUpdated: (String? value) =>
+                            onUpdated(confirmPassword: value),
+                        validator: (String? value) =>
+                            (password == confirmPassword &&
+                                    (password?.isNotEmpty ?? false))
+                                ? null
+                                : "Senha diferente da Anterior",
+                      ),
+                      const SizedBox(
+                        height: 58,
+                      ),
+                      StandartButton(
+                        buttonText: 'Register',
+                        height: 60,
+                        width: double.infinity,
+                        onPressed: () {
+                          var result = formKey.currentState?.validate();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 60,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

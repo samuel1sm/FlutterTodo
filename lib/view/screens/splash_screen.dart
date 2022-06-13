@@ -50,7 +50,7 @@ class SplashScreen extends StatelessWidget {
                   height: 60,
                   width: 320,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const LoginScreen()));

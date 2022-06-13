@@ -6,17 +6,26 @@ import '../components/standard_button.dart';
 import '../components/standard_textField.dart';
 import 'login_screen.dart';
 
-class CreateAccountScreen extends StatelessWidget {
-  String? name;
-  String? email;
-  String? password;
-  String? confirmPassword;
-
-  CreateAccountScreen({
+class CreateAccountScreen extends StatefulWidget {
+  const CreateAccountScreen({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+}
+
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  String? name;
+
+  String? email;
+
+  String? password;
+
+  String? confirmPassword;
+
   final formKey = GlobalKey<FormState>();
+
   final buttonKey = GlobalKey<StandardButtonState>();
 
   void onUpdated(
@@ -32,7 +41,7 @@ class CreateAccountScreen extends StatelessWidget {
     if (this.name != null &&
         this.email != null &&
         this.password != null &&
-        this.password == this.confirmPassword) {
+        this.confirmPassword != null) {
       buttonKey.currentState?.onChange(true);
     } else {
       buttonKey.currentState?.onChange(false);

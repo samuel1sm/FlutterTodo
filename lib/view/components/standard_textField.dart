@@ -6,15 +6,19 @@ class StandardTextField extends StatefulWidget {
   final Function(String?)? onSaved;
   final Function(String?)? onChanged;
   final Function(String?)? onUpdated;
+  final bool isPassword;
+  final TextInputType inputType;
 
-  const StandardTextField({
-    Key? key,
-    required this.hintText,
-    required this.validator,
-    this.onSaved,
-    this.onChanged,
-    this.onUpdated,
-  }) : super(key: key);
+  const StandardTextField(
+      {Key? key,
+      required this.hintText,
+      required this.validator,
+      this.onSaved,
+      this.onChanged,
+      this.onUpdated,
+      this.isPassword = false,
+      this.inputType = TextInputType.name})
+      : super(key: key);
 
   @override
   State<StandardTextField> createState() => StandardTextFieldState();
@@ -24,6 +28,10 @@ class StandardTextFieldState extends State<StandardTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: widget.inputType,
+      enableSuggestions: !widget.isPassword,
+      autocorrect: !widget.isPassword,
+      obscureText: widget.isPassword,
       validator: (value) => widget.validator(value),
       onChanged: (value) {
         if (widget.onChanged != null) {

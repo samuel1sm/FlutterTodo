@@ -86,7 +86,8 @@ class LoginScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateAccountScreen()));
+                                builder: (context) =>
+                                    const CreateAccountScreen()));
                       },
                     ),
                     const SizedBox(

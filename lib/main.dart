@@ -4,6 +4,8 @@ import 'package:todo_list/view/screens/login_screen.dart';
 import 'package:todo_list/view/screens/splash_screen.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MaterialApp(
     title: "todo list",
     theme: ThemeData(

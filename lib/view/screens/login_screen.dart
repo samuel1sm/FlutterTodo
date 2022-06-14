@@ -41,6 +41,7 @@ class LoginScreen extends StatelessWidget {
                       height: 56,
                     ),
                     StandardTextField(
+                      inputType: TextInputType.emailAddress,
                       hintText: 'Enter your email',
                       validator: (String? value) {
                         if (value?.isNotEmpty ?? false) {
@@ -53,6 +54,7 @@ class LoginScreen extends StatelessWidget {
                       height: 20,
                     ),
                     StandardTextField(
+                      isPassword: true,
                       hintText: 'Enter password',
                       validator: (String? value) {
                         if ((value?.length ?? 0) < 2) {

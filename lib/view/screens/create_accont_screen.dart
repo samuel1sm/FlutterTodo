@@ -30,6 +30,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final formKey = GlobalKey<FormState>();
 
   final buttonKey = GlobalKey<StandardButtonState>();
+  final firebaseConnection =
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   void onUpdated(
       {String? name,
@@ -64,16 +66,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 child: Form(
                   key: formKey,
                   child: FutureBuilder(
-                    future: Firebase.initializeApp(
-                        options: DefaultFirebaseOptions.currentPlatform),
+                    future: firebaseConnection,
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.done:
                           return buildScreen();
                         default:
-                          return const Text('Loading');
-                        //TODO make a load widget
+                          return const Text("active");
                       }
                     },
                   ),
@@ -157,16 +157,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           active: false,
           onPressed: () async {
             var result = formKey.currentState?.validate();
-            if (result ?? false) {
-              final userCredentials = await FirebaseAuth.instance
-                  .createUserWithEmailAndPassword(
-                      email: email!, password: password!);
 
-              print(userCredentials);
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const LoginScreen()));
+            if (result ?? false) {
+              try {
+                final userCredentials = await FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                        email: email!, password: password!);
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'email-already-in-use') {
+                  print('The account already exists for that email.');
+                }
+              } catch (e) {
+                print(e);
+              }
             }
           },
         ),

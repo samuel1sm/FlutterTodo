@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/firebase_options.dart';
 
+import '../components/alerts/simple_alert_dialog.dart';
 import '../components/standard_background.dart';
 import '../components/standard_button.dart';
 import '../components/standard_textField.dart';
@@ -165,7 +166,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         email: email!, password: password!);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
-                  print('The account already exists for that email.');
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const SimpleAlertDialog(
+                          content: 'E-mail já existente',
+                          title: 'Failure on Account Creation',
+                        );
+                      });
                 }
               } catch (e) {
                 print(e);

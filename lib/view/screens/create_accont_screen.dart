@@ -161,9 +161,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
             if (result ?? false) {
               try {
-                final userCredentials = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email!, password: password!);
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: email!, password: password!);
+
+                if (!mounted) return;
+
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
                   showDialog(
@@ -175,8 +181,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         );
                       });
                 }
-              } catch (e) {
-                print(e);
               }
             }
           },

@@ -21,11 +21,8 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? name;
-
   String? email;
-
   String? password;
-
   String? confirmPassword;
 
   final formKey = GlobalKey<FormState>();

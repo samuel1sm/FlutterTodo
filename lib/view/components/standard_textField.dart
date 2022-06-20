@@ -8,6 +8,7 @@ class StandardTextField extends StatefulWidget {
   final Function(String?)? onUpdated;
   final bool isPassword;
   final TextInputType inputType;
+  final TextEditingController? controller;
 
   const StandardTextField(
       {Key? key,
@@ -17,7 +18,8 @@ class StandardTextField extends StatefulWidget {
       this.onChanged,
       this.onUpdated,
       this.isPassword = false,
-      this.inputType = TextInputType.name})
+      this.inputType = TextInputType.name,
+      this.controller})
       : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class StandardTextFieldState extends State<StandardTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       keyboardType: widget.inputType,
       enableSuggestions: !widget.isPassword,
       autocorrect: !widget.isPassword,

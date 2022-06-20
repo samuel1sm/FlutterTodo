@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/firebase_options.dart';
-import 'package:todo_list/view/screens/create_accont_screen.dart';
+import 'package:todo_list/view/screens/create_account/create_accont_screen.dart';
 
-import '../components/alerts/simple_alert_dialog.dart';
-import '../components/standard_background.dart';
-import '../components/standard_button.dart';
-import '../components/standard_textField.dart';
+import '../../components/alerts/simple_alert_dialog.dart';
+import '../../components/standard_background.dart';
+import '../../components/standard_button.dart';
+import '../../components/standard_textField.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -20,21 +20,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? email;
-  String? password;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
 
   final formKey = GlobalKey<FormState>();
-
   final buttonKey = GlobalKey<StandardButtonState>();
 
   final firebaseConnection =
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  void onUpdated({String? email, String? password}) {
-    this.email = email ?? this.email;
-    this.password = password ?? this.password;
-
-    if (this.email != null && this.password != null) {
+  void onUpdated({required String email, required String password}) {
+    if (email.isNotEmpty && password.isNotEmpty) {
       buttonKey.currentState?.onChange(true);
     } else {
       buttonKey.currentState?.onChange(false);
@@ -93,9 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 56,
         ),
         StandardTextField(
+          controller: _emailController,
           inputType: TextInputType.emailAddress,
           hintText: 'Enter your email',
-          onUpdated: (value) => onUpdated(email: value),
+          onUpdated: (value) => onUpdated(
+              email: _emailController.text, password: _passwordController.text),
           validator: (String? value) {
             if (value?.isNotEmpty ?? false) {
               return null;
@@ -108,8 +113,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         StandardTextField(
           isPassword: true,
+          controller: _passwordController,
           hintText: 'Enter password',
-          onUpdated: (value) => onUpdated(password: value),
+          onUpdated: (value) => onUpdated(
+              password: _passwordController.text, email: _emailController.text),
           validator: (String? value) {
             if ((value?.length ?? 0) < 2) {
               return "Senha Incompleta";
@@ -132,10 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
               if (result ?? false) {
                 final userCredential = await FirebaseAuth.instance
                     .signInWithEmailAndPassword(
-                        email: email!, password: password!);
+                        email: _emailController.text,
+                        password: _passwordController.text);
 
                 if (!mounted) return;
-                print(userCredential);
+
                 showDialog(
                     context: context,
                     builder: (context) {

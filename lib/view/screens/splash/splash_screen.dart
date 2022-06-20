@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:todo_list/view/screens/login_screen.dart';
+import 'package:todo_list/view/screens/login/login_screen.dart';
 
-import '../components/standard_background.dart';
-import '../components/standard_button.dart';
+import '../../components/standard_background.dart';
+import '../../components/standard_button.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({

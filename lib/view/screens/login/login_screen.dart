@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
         StandardButton(
           buttonText: 'Create Account',
           height: 60,
-          width: double.infinity,
+          width: 320,
           onPressed: () {
             Navigator.push(
                 context,
